@@ -78,6 +78,41 @@ const CameraCanvas = ({ mode, onProcessFrame }) => {
         }
         requestRef.current = requestAnimationFrame(processFrame);
     };
+
+    const toggleCamera = () => {
+        setFacingMode(prev => prev === 'user' ? 'environment' : 'user');
+    };
+
+    return (
+        <div className="relative w-full mx-auto bg-gray-900 rounded-lg overflow-hidden shadow-xl md:max-w-5xl md:aspect-video" style={{ maxHeight: typeof window !== 'undefined' && window.innerWidth < 768 ? '70vh' : 'none' }}>
+            <video
+                ref={videoRef}
+                className="hidden" // Hide the raw video element
+                width="640"
+                height="480"
+                playsInline
+                muted
+            />
+            <canvas
+                ref={canvasRef}
+                className="w-full h-full object-contain"
+            />
+            {!stream && (
+                <div className="absolute inset-0 flex items-center justify-center text-white">
+                    Loading Camera...
+                </div>
+            )}
+
+            {/* カメラ切り替えボタン */}
+            <button
+                onClick={toggleCamera}
+                className="absolute top-4 right-4 bg-gray-800/80 hover:bg-gray-700/80 text-white p-3 rounded-full shadow-lg transition-all duration-200 hover:scale-110 backdrop-blur-sm z-10"
+                aria-label="カメラ切り替え"
+            >
+                <SwitchCamera size={24} />
+            </button>
+        </div>
+    );
 };
 
 export default CameraCanvas;
