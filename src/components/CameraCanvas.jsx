@@ -67,10 +67,6 @@ const CameraCanvas = ({ mode, onProcessFrame }) => {
                 ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
 
                 // Call the processing function if provided
-                // Test drawing to verify canvas
-                ctx.fillStyle = 'red';
-                ctx.fillRect(10, 10, 50, 50);
-                // End test drawing
                 if (onProcessFrame) {
                     onProcessFrame(video, canvas, ctx);
                 }
