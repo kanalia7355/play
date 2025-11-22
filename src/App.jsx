@@ -116,24 +116,24 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-950 text-white p-4 sm:p-8 font-sans">
-      <header className="mb-4 sm:mb-8 text-center">
-        <h1 className="text-2xl sm:text-4xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent mb-2">
+    <div className="min-h-screen bg-gray-950 text-white p-4 md:p-8 font-sans">
+      <header className="mb-4 md:mb-8 text-center">
+        <h1 className="text-2xl md:text-4xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent mb-2">
           AI Vision Lab
         </h1>
-        <p className="text-sm sm:text-base text-gray-400">Real-time Browser Computer Vision</p>
+        <p className="text-sm md:text-base text-gray-400">Real-time Browser Computer Vision</p>
       </header>
 
-      <main className="flex flex-col items-center gap-4 sm:gap-8">
-        <div className="relative w-full">
+      <main className="flex flex-col items-center gap-4 md:gap-8">
+        <div className="relative w-full flex justify-center">
           <CameraCanvas mode={mode} onProcessFrame={handleProcessFrame} />
 
           {mode === 'gemini' && (
-            <div className="absolute bottom-4 left-1/2 -translate-x-1/2">
+            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20">
               <button
                 onClick={handleGeminiAnalysis}
                 disabled={isAnalyzing}
-                className={`px-4 sm:px-6 py-2 sm:py-3 text-sm sm:text-base rounded-full font-bold shadow-lg transition-all ${isAnalyzing
+                className={`px-4 md:px-6 py-2 md:py-3 text-sm md:text-base rounded-full font-bold shadow-lg transition-all ${isAnalyzing
                   ? 'bg-gray-600 cursor-not-allowed'
                   : 'bg-gradient-to-r from-pink-500 to-orange-500 hover:scale-105'
                   }`}
@@ -203,13 +203,13 @@ function App() {
 const ModeButton = ({ active, onClick, icon, label }) => (
   <button
     onClick={onClick}
-    className={`flex items-center gap-1 sm:gap-2 px-3 sm:px-6 py-2 sm:py-3 text-xs sm:text-base rounded-full transition-all duration-300 ${active
+    className={`flex items-center gap-2 px-4 py-2 md:px-6 md:py-3 rounded-full transition-all duration-300 ${active
       ? 'bg-blue-600 shadow-lg shadow-blue-500/30 scale-105'
       : 'bg-gray-800 hover:bg-gray-700'
       }`}
   >
-    <span className="w-4 h-4 sm:w-5 sm:h-5">{icon}</span>
-    <span className="hidden sm:inline">{label}</span>
+    <span className="w-5 h-5">{icon}</span>
+    <span className="text-sm md:text-base">{label}</span>
   </button>
 );
 
