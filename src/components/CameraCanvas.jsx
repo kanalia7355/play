@@ -1,27 +1,34 @@
 import React, { useRef, useEffect, useState } from 'react';
 import * as tf from '@tensorflow/tfjs';
 import '@tensorflow/tfjs-backend-webgl';
+import { SwitchCamera } from 'lucide-react';
 
 const CameraCanvas = ({ mode, onProcessFrame }) => {
     const videoRef = useRef(null);
     const canvasRef = useRef(null);
     const [stream, setStream] = useState(null);
+    const [facingMode, setFacingMode] = useState('user'); // 'user' = 内カメ, 'environment' = 外カメ
     const requestRef = useRef();
 
     useEffect(() => {
         const setupCamera = async () => {
             try {
-                const stream = await navigator.mediaDevices.getUserMedia({
+                // 既存のストリームを停止
+                if (stream) {
+                    stream.getTracks().forEach(track => track.stop());
+                }
+
+                const newStream = await navigator.mediaDevices.getUserMedia({
                     video: {
                         width: { ideal: 1280 },
                         height: { ideal: 720 },
-                        facingMode: 'user'
+                        facingMode: facingMode
                     },
                     audio: false,
                 });
-                setStream(stream);
+                setStream(newStream);
                 if (videoRef.current) {
-                    videoRef.current.srcObject = stream;
+                    videoRef.current.srcObject = newStream;
                     videoRef.current.onloadedmetadata = () => {
                         videoRef.current.play();
                         // Start processing loop once video is ready
@@ -41,7 +48,7 @@ const CameraCanvas = ({ mode, onProcessFrame }) => {
             }
             cancelAnimationFrame(requestRef.current);
         };
-    }, []);
+    }, [facingMode]); // facingModeが変わったら再セットアップ
 
     const processFrame = async () => {
         if (videoRef.current && canvasRef.current) {
@@ -72,8 +79,12 @@ const CameraCanvas = ({ mode, onProcessFrame }) => {
         requestRef.current = requestAnimationFrame(processFrame);
     };
 
+    const toggleCamera = () => {
+        setFacingMode(prev => prev === 'user' ? 'environment' : 'user');
+    };
+
     return (
-        <div className="relative w-full max-w-5xl mx-auto aspect-video bg-gray-900 rounded-lg overflow-hidden shadow-xl">
+        <div className="relative w-full mx-auto bg-gray-900 rounded-lg overflow-hidden shadow-xl" style={{ maxHeight: '70vh' }}>
             <video
                 ref={videoRef}
                 className="hidden" // Hide the raw video element
@@ -91,6 +102,15 @@ const CameraCanvas = ({ mode, onProcessFrame }) => {
                     Loading Camera...
                 </div>
             )}
+
+            {/* カメラ切り替えボタン */}
+            <button
+                onClick={toggleCamera}
+                className="absolute top-4 right-4 bg-gray-800/80 hover:bg-gray-700/80 text-white p-3 rounded-full shadow-lg transition-all duration-200 hover:scale-110 backdrop-blur-sm"
+                aria-label="カメラ切り替え"
+            >
+                <SwitchCamera size={24} />
+            </button>
         </div>
     );
 };

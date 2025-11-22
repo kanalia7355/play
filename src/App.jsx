@@ -116,16 +116,16 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-950 text-white p-8 font-sans">
-      <header className="mb-8 text-center">
-        <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent mb-2">
+    <div className="min-h-screen bg-gray-950 text-white p-4 sm:p-8 font-sans">
+      <header className="mb-4 sm:mb-8 text-center">
+        <h1 className="text-2xl sm:text-4xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent mb-2">
           AI Vision Lab
         </h1>
-        <p className="text-gray-400">Real-time Browser Computer Vision</p>
+        <p className="text-sm sm:text-base text-gray-400">Real-time Browser Computer Vision</p>
       </header>
 
-      <main className="flex flex-col items-center gap-8">
-        <div className="relative">
+      <main className="flex flex-col items-center gap-4 sm:gap-8">
+        <div className="relative w-full">
           <CameraCanvas mode={mode} onProcessFrame={handleProcessFrame} />
 
           {mode === 'gemini' && (
@@ -133,7 +133,7 @@ function App() {
               <button
                 onClick={handleGeminiAnalysis}
                 disabled={isAnalyzing}
-                className={`px-6 py-3 rounded-full font-bold shadow-lg transition-all ${isAnalyzing
+                className={`px-4 sm:px-6 py-2 sm:py-3 text-sm sm:text-base rounded-full font-bold shadow-lg transition-all ${isAnalyzing
                   ? 'bg-gray-600 cursor-not-allowed'
                   : 'bg-gradient-to-r from-pink-500 to-orange-500 hover:scale-105'
                   }`}
@@ -145,13 +145,13 @@ function App() {
         </div>
 
         {mode === 'gemini' && geminiResult && (
-          <div className="w-full max-w-2xl bg-gray-900 p-6 rounded-lg border border-gray-800 shadow-xl">
-            <h3 className="text-xl font-bold mb-2 text-pink-400">Gemini Analysis</h3>
-            <p className="text-gray-300 leading-relaxed whitespace-pre-wrap">{geminiResult}</p>
+          <div className="w-full bg-gray-900 p-4 sm:p-6 rounded-lg border border-gray-800 shadow-xl">
+            <h3 className="text-lg sm:text-xl font-bold mb-2 text-pink-400">Gemini Analysis</h3>
+            <p className="text-sm sm:text-base text-gray-300 leading-relaxed whitespace-pre-wrap">{geminiResult}</p>
           </div>
         )}
 
-        <div className="flex flex-wrap justify-center gap-4">
+        <div className="flex flex-wrap justify-center gap-2 sm:gap-4">
           <ModeButton
             active={mode === 'none'}
             onClick={() => setMode('none')}
@@ -203,13 +203,13 @@ function App() {
 const ModeButton = ({ active, onClick, icon, label }) => (
   <button
     onClick={onClick}
-    className={`flex items-center gap-2 px-6 py-3 rounded-full transition-all duration-300 ${active
+    className={`flex items-center gap-1 sm:gap-2 px-3 sm:px-6 py-2 sm:py-3 text-xs sm:text-base rounded-full transition-all duration-300 ${active
       ? 'bg-blue-600 shadow-lg shadow-blue-500/30 scale-105'
       : 'bg-gray-800 hover:bg-gray-700'
       }`}
   >
-    {icon}
-    <span>{label}</span>
+    <span className="w-4 h-4 sm:w-5 sm:h-5">{icon}</span>
+    <span className="hidden sm:inline">{label}</span>
   </button>
 );
 
